@@ -1,0 +1,1 @@
+Digital Controller Project that involves the design, simulation, and experimentation on an overdamped second order LTI system. Various stability methods will be used in completing this project which includes and is not limited to: state space, phase margin, etc. 
