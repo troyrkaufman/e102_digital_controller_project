@@ -1,3 +1,5 @@
+// OUTDATED -> See sample_step.ino for most up to date code for a step input into an open loop system
+
 /*
 Step response of RC circuit after
 a switched 2.5V step reference input.
