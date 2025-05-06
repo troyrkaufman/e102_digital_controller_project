@@ -31,4 +31,3 @@ xlabel('Time (ms)')
 ylabel('Voltage (V)')
 title('Analytical and Experimental Step Response')
 legend('Experimental', 'Analytical')
-
