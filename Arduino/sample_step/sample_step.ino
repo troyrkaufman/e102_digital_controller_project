@@ -8,7 +8,7 @@ The circuit:
 */
 //PIN SETTINGS
 const int yPin = A0; // Analog read pin
-const int uPin = 9; // Analog write pin (PWM)
+const int uPin = 11; // Analog write pin (PWM)
 const int switchPin = 2; // input pin for the switch
 boolean switchVal = HIGH; // declare initial switch pin state
 // Parameter Settings
@@ -18,12 +18,14 @@ const float uin = 2.5; //2.5V input
 float y=0;
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
+    pinMode(uPin, OUTPUT);
+    pinMode(yPin, INPUT);
     digitalWrite(switchPin, HIGH); //initialize to start with pull up voltage
     Serial.begin(9600);
 }
 void loop() {
     //WAIT FOR SWITCH
-    while(switchVal == HIGH) // repeat this loop until switch is turned on
+    while(switchVal == LOW) // repeat this loop until switch is turned on
                             // (switchVal will go LOW when switch is turned on)
     {
         analogWrite(uPin,0);
