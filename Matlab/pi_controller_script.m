@@ -1,4 +1,4 @@
-% step_response_plot.m
+% pi_controller_script.m
 %
 % Charlie Lambert and Troy Kaufman
 % E102 Spring 2024, Prof. Cha, Tsai, Wu, and Yang
