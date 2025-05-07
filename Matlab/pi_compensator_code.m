@@ -34,28 +34,29 @@ Ki_val = double(sol.Ki);
 
 fprintf('Kp = %.4f\nKi = %.4f\n', Kp_val, Ki_val);
 
-% Log signals
+% Run simulation
 sim('pi_controller_model.slx');
 
-logs = simOutlogsout;                     % Access logged signals
+% Extract y and u from the Dataset object
+y_signal = yout.getElement('y');   % Signal names must match block names
+u_signal = yout.getElement('u');
 
-% Now access variables saved by "To Workspace" blocks:
-y_time = y.time;
-y_data = y.signals.values;
-u_time = u.time;
-u_data = u.signals.values;
+% Get time and values
+y_time = y_signal.Values.Time;
+y_data = y_signal.Values.Data;
 
+u_time = u_signal.Values.Time;
+u_data = u_signal.Values.Data;
+
+% Plot results
 subplot(2,1,1)
 plot(y_time, y_data)
-title('Digital Controlled Voltage')
-xlabel('time [s]')
-ylabel('Voltage [volts]')
+title('Digitally Controlled Voltage With PI Compensator')
+xlabel('Time [s]')
+ylabel('Voltage [V]')
 
 subplot(2,1,2)
 plot(u_time, u_data)
-title('Input 2.5 Volt Unit Step Signal')
-xlabel('time [s]')
-ylabel('Voltage [volts]')
-
-
-
+title('Plants Input Signal')
+xlabel('Time [s]')
+ylabel('Voltage [V]')
