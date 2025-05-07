@@ -13,8 +13,11 @@
 clear all;
 clc;
 
+wc = 1;
+Pm = 70;
+
 syms Kp Ki real
-s = 1j * 1;  % omega = 1 rad/s
+s = 1j * wc;  % omega = 1 rad/s
 
 % Define the transfer function at s = j1
 num = Kp * s + Ki;
@@ -23,7 +26,7 @@ Tol = num / den;
 
 % Equations to solve
 mag_eq = abs(Tol) == 1;
-phase_eq = angle(Tol) * 180/pi == -110;
+phase_eq = angle(Tol) * 180/pi == (-180+Pm);
 
 % Solve both equations
 sol = vpasolve([mag_eq, phase_eq], [Kp, Ki]);
