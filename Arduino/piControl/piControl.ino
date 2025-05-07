@@ -72,13 +72,8 @@ void loop() {
     Serial.print (" ");
     Serial.print (y);
     Serial.print (" ");
-    Serial.print(u);
-    Serial.print (" ");
-    Serial.print(uVal);
-    Serial.print (" ");
-    Serial.print(e);
-    Serial.print (" ");
-    Serial.println(e_integral);
+    Serial.println(u);
+ 
 
     // WAIT FOR NEXT SAMPLE
     delay(100); //sample frequency 10Hz
