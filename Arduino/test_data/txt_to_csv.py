@@ -1,6 +1,6 @@
 import numpy as np
 
-file_name = 'step_response.txt'
+file_name = 'pi_control.txt'
 
 data = np.loadtxt(file_name, skiprows=1, delimiter=' ')
 

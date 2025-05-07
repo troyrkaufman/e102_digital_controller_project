@@ -1,0 +1,49 @@
+# ========================
+# MATLAB Ignore Rules
+# ========================
+# Automatically generated files
+*.asv
+*.m~    
+*.mdl.*
+*.slxc
+*.slx.autosave
+*.mex*         # compiled MEX files (platform-dependent)
+
+# Simulink cache and build folders
+slprj/
+sccprj/
+_simulinkcache/
+work/
+
+# MATLAB project files (if you want to ignore them)
+*.prj
+*.mlproj
+
+# ========================
+# Arduino Ignore Rules
+# ========================
+# Compiled binary files
+*.hex
+*.elf
+
+# Arduino build and temp folders
+*.bin
+*.eep
+*.d
+*.o
+*.map
+*.dep
+*.a
+
+# Arduino CLI and IDE-specific folders
+.build/
+.pio/              # PlatformIO build system
+.vscode/           # VSCode configs (optional)
+
+# Mac & Windows OS junk (cross-platform safety)
+.DS_Store
+Thumbs.db
+
+# Arduino IDE backup files
+*.bak
+*.tmp

@@ -11,8 +11,12 @@
 clear all;
 clc;
 
+% Design parameters
+wc = 1;
+Pm = 70;
+
 syms Kp Ki real
-s = 1j * 1;  % omega = 1 rad/s
+s = 1j * wc;  % omega = 1 rad/s
 
 % Define the transfer function at s = j1
 num = Kp * s + Ki;
@@ -21,7 +25,7 @@ Tol = num / den;
 
 % Equations to solve
 mag_eq = abs(Tol) == 1;
-phase_eq = angle(Tol) * 180/pi == -110;
+phase_eq = angle(Tol) * 180/pi == (-180+Pm);
 
 % Solve both equations
 sol = vpasolve([mag_eq, phase_eq], [Kp, Ki]);
@@ -46,15 +50,31 @@ y_data = y_signal.Values.Data;
 u_time = u_signal.Values.Time;
 u_data = u_signal.Values.Data;
 
+arduino_data = readtable('pi_control.csv');
+time_ard = arduino_data.Time*0.5;
+y_ard = arduino_data.Output;
+u_ard = arduino_data.Input;
+
+figure(1)
 % Plot results
-subplot(2,1,1)
+subplot(2,1,1) 
+hold on
 plot(y_time, y_data)
-title('Digitally Controlled Voltage With PI Compensator')
+plot(time_ard, y_ard)
+legend('Simulated', 'Experimental')
+title('Output With PI Compensator')
 xlabel('Time [s]')
 ylabel('Voltage [V]')
 
+hold off
 subplot(2,1,2)
+hold on
 plot(u_time, u_data)
-title('Plants Input Signal')
+plot(time_ard, u_ard)
+legend('Simulated', 'Experimental')
+title('Control Input To The Plant')
 xlabel('Time [s]')
 ylabel('Voltage [V]')
+hold off 
+
+
