@@ -1,8 +1,6 @@
 %% Design a unity feedback continuous-time closed loop system for the circuit with a PI compensator
 %   C(S) = Kp + Ki/s for 70 degree phase margin and corssover freqeuncy wc0 = 1 rad/s
 
-% important functions margin(Tol)
-
 % Constraints:
 % MP < 1%
 % zero steady state error
@@ -38,7 +36,7 @@ fprintf('Kp = %.4f\nKi = %.4f\n', Kp_val, Ki_val);
 sim('pi_controller_model.slx');
 
 % Extract y and u from the Dataset object
-y_signal = yout.getElement('y');   % Signal names must match block names
+y_signal = yout.getElement('y');   
 u_signal = yout.getElement('u');
 
 % Get time and values
