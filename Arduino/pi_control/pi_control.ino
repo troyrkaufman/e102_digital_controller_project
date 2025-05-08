@@ -17,8 +17,10 @@ const float ref = 2.5; //2.5V reference input
 // Initial Values for internal signals
 float y=0;
 float u=0;
+float u_prev=0;
 float e=0;
-float e_integral = 0;
+float e_prev=0;
+float T = 0.1;
 
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
@@ -43,11 +45,10 @@ void loop() {
     // calculate error for p control
     e=ref-y;
 
-    // calculate error for integral which is approximately the running sum of the error * Ts
-    e_integral += e*0.1;
+    u = Kp*(e-e_prev) + Ki*e*T + u_prev;
 
-    // CONTROLLER
-    u=Kp*e + Ki*e_integral;
+    u_prev = u; // store previous control signal
+    e_prev = e; // store previous error
 
     // check that control signal is in range
     if (u>5) {
@@ -55,12 +56,6 @@ void loop() {
     }
     if (u<0){
         u=0;
-    }
-    if (e_integral>5) {
-        e_integral=5;
-    }
-    if (e_integral<0){
-        e_integral=0;
     }
 
     // WRITE CIRCUIT INPUT
