@@ -20,4 +20,10 @@ sys_d = c2d(sys_c, Ts)
 % implement controller
 Q = [100 0; 0 1];
 R = [1];
-[K, S, P] = dlqr(sys_d.A ,sys_d.B, Q, R)
+[K,S,P] = dlqr(sys_d.A ,sys_d.B, Q, R);
+
+% obtain L vector
+%ym L1 L2 real
+Pl = 2*P
+place(sys_d.A', sys_d.C', Pl)
+
