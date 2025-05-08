@@ -19,5 +19,5 @@ sys_d = c2d(sys_c, Ts)
 
 % implement controller
 Q = [100 0; 0 1];
-R = [0];
-dlqr(sys_d.A ,sys_d.B, Q, R)
+R = [1];
+[K, S, P] = dlqr(sys_d.A ,sys_d.B, Q, R)
