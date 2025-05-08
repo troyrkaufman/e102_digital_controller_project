@@ -26,5 +26,5 @@ R = [1];
 Kr = -inv((sys_c.C-sys_c.D*K)*inv(sys_d.A-eye(2)-sys_d.B*K)*sys_d.B-sys_c.D)
 
 % solve observer gains
-P_o = 2*P;
-L = place(sys_d.A', sys_d.C', P_o)
+P_o = 0.5*P;
+L = place(sys_d.A', sys_d.C', P_o);
