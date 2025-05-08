@@ -18,7 +18,7 @@ const float Kr = 0.974;
 
 // feedback gain and observable gain vectors
 BLA::Matrix<1,2> K = {4.6334, -0.026};
-BLA::Matrix<2,1> L = {-0.4331, -0.9516};
+BLA::Matrix<2,1> L = {1.7829, 1.0896};//{-0.4331, -0.9516};
 
 // Observable matrix values
 BLA::Matrix<2,2> Ad = {0.7746, -0.08833, 0.08833, 0.9954};
@@ -48,7 +48,10 @@ BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> pr
 
 float controller(float step_val, float Kr_val, BLA::Matrix<1,2> K_fb_val, float y_val){
     BLA::Matrix<2,1> xhat = prev_xhat;
-    float u = (step_val * Kr_val) + (K_fb_val * xhat)(0,0);
+    float u = (step_val * Kr_val) + (K_fb_val * prev_xhat)(0,0);
+    // Cap u
+    if (u > 5) u = 5;
+    if (u < 0) u = 0;
     xhat = approxStateVector(u, y_val, prev_xhat);
     prev_xhat = xhat;
     return u;
@@ -76,14 +79,6 @@ void loop() {
 
     // observer design within controller design
     float u = controller(ref, Kr, K, y);
-
-    // check that control signal is in range
-    if (u>5) {
-        u=5;
-    }
-    if (u<0){
-        u=0;
-    }
 
     // WRITE CIRCUIT INPUT
     uVal=u*(255/5);
