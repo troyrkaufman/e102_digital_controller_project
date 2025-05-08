@@ -9,6 +9,7 @@
 % contrl input saturates at 5v
 
 clear all;
+clf;
 clc;
 
 % Design parameters
@@ -51,7 +52,7 @@ u_time = u_signal.Values.Time;
 u_data = u_signal.Values.Data;
 
 arduino_data = readtable('pi_control.csv');
-time_ard = arduino_data.Time*0.5;
+time_ard = arduino_data.Time*0.1;
 y_ard = arduino_data.Output;
 u_ard = arduino_data.Input;
 
