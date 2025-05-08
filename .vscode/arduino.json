@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "arduinoisp",
+    "port": "COM3",
+    "sketch": "Arduino\\optimal_observer_control\\optimal_observer_control.ino"
+}

@@ -21,9 +21,9 @@ BLA::Matrix<2,1> K = {4.6334, -0.026};
 BLA::Matrix<2,1> L = {-0.4331, -0.9516};
 
 // Observable matrix values
-BLA::Matrix<2,1> Ad = {0.7746, -0.08833, 0.08833, 0.9954};
+BLA::Matrix<2,2> Ad = {0.7746, -0.08833, 0.08833, 0.9954};
 BLA::Matrix<2,1> Bd = {0.08833, 0.004604};
-BLA::Matrix<2,1> Cd = {0, 1};
+BLA::Matrix<1,2> Cd = {0, 1};
 BLA::Matrix<1,1> Dd = {0};
 
 // Initial Values for internal signals
@@ -34,20 +34,21 @@ float e=0;
 float e_prev=0;
 float T = 0.1;
 
-float approxStateVector(float u_val, float y_val, float [2][1] prev_xhat){
+BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> prev_xhat){
     BLA::Matrix<1,1> u = u_val;
-    BLA::Matrix<1,1> u = y_val;
+    BLA::Matrix<1,2> u_spec = {u_val, 0};
+    BLA::Matrix<1,1> y = y_val;
     BLA::Matrix<2,1> entry1 = Bd * u;
-    BLA::Matrix<2,1> entry2 = (L * u) * (y - ((Cd * u) * prev_xhat));
-    BLA::Matrix<2,1> entry3 = (Ad * u) * prev_xhat; 
+    BLA::Matrix<2,1> entry2 = (L * u) * (y - ((u * Cd) * prev_xhat));
+    BLA::Matrix<2,1> entry3 = (u_val * Ad) * prev_xhat; 
     BLA::Matrix<2,1> xhat = entry1 + entry2 + entry3;
     return xhat;
 }
 
-float controller(float step_val, float Kr_val, float [2][1] control_gain_val, float y_val){
+//float controller(float step_val, float Kr_val, float [2][1] control_gain_val, float y_val){
 
 
-}
+//}
 
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
