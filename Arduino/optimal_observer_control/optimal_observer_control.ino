@@ -17,7 +17,7 @@ const float ref = 2.5; //2.5V reference input
 const float Kr = 0.974;
 
 // feedback gain and observable gain vectors
-BLA::Matrix<2,1> K = {4.6334, -0.026};
+BLA::Matrix<1,2> K = {4.6334, -0.026};
 BLA::Matrix<2,1> L = {-0.4331, -0.9516};
 
 // Observable matrix values
@@ -25,18 +25,19 @@ BLA::Matrix<2,2> Ad = {0.7746, -0.08833, 0.08833, 0.9954};
 BLA::Matrix<2,1> Bd = {0.08833, 0.004604};
 BLA::Matrix<1,2> Cd = {0, 1};
 BLA::Matrix<1,1> Dd = {0};
+BLA::Matrix<2,1> prev_xhat = 0;
 
 // Initial Values for internal signals
 float y=0;
-float u=0;
-float u_prev=0;
-float e=0;
-float e_prev=0;
+//float u=0;
+//float u_prev=0;
+//float e=0;
+//float e_prev=0;
 float T = 0.1;
 
 BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> prev_xhat){
     BLA::Matrix<1,1> u = u_val;
-    BLA::Matrix<1,2> u_spec = {u_val, 0};
+    //BLA::Matrix<1,2> u_spec = {u_val, 0};
     BLA::Matrix<1,1> y = y_val;
     BLA::Matrix<2,1> entry1 = Bd * u;
     BLA::Matrix<2,1> entry2 = (L * u) * (y - ((u * Cd) * prev_xhat));
@@ -45,10 +46,13 @@ BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> pr
     return xhat;
 }
 
-//float controller(float step_val, float Kr_val, float [2][1] control_gain_val, float y_val){
-
-
-//}
+float controller(float step_val, float Kr_val, BLA::Matrix<1,2> K_fb_val, float y_val){
+    BLA::Matrix<2,1> xhat = prev_xhat;
+    float u = (step_val * Kr_val) + (K_fb_val * xhat)(0,0);
+    xhat = approxStateVector(u, y_val, prev_xhat);
+    prev_xhat = xhat;
+    return u;
+}
 
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
@@ -70,13 +74,8 @@ void loop() {
     // convert to volts
     y=sensorVal*(5.0/1023.0);
 
-    // calculate error for p control
-    // e=ref-y;
-
-    // u = Kp*(e-e_prev) + Ki*e*T + u_prev;
-
-    // u_prev = u; // store previous control signal
-    // e_prev = e; // store previous error
+    // observer design within controller design
+    float u = controller(ref, Kr, K, y);
 
     // check that control signal is in range
     if (u>5) {
@@ -92,6 +91,10 @@ void loop() {
 
     // print the results to the serial monitor:
     Serial.print(time++);
+    Serial.print (" ");
+    Serial.print (prev_xhat);
+    Serial.print (" ");
+    //Serial.print (xhat);
     Serial.print (" ");
     Serial.print (y);
     Serial.print (" ");

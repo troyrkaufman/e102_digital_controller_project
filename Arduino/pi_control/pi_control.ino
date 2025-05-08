@@ -42,9 +42,10 @@ void loop() {
     // convert to volts
     y=sensorVal*(5.0/1023.0);
 
-    // calculate error for p control
+    // calculate error 
     e=ref-y;
 
+    // calculate input signal (to plant) using backwards difference method
     u = Kp*(e-e_prev) + Ki*e*T + u_prev;
 
     u_prev = u; // store previous control signal
