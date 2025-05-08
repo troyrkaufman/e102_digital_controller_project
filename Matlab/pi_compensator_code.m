@@ -76,5 +76,3 @@ title('Control Input To The Plant')
 xlabel('Time [s]')
 ylabel('Voltage [V]')
 hold off 
-
-
