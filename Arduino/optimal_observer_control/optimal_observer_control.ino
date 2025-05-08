@@ -26,6 +26,10 @@ BLA::Matrix<2,1> Bd = {0.08833, 0.004604};
 BLA::Matrix<1,2> Cd = {0, 1};
 BLA::Matrix<1,1> Dd = {0};
 BLA::Matrix<2,1> prev_xhat = 0;
+BLA::Matrix<2,1> xhat = 0;
+
+
+BLA::Matrix<1,2> C = {0, 1};
 
 // Initial Values for internal signals
 float y=0;
@@ -37,22 +41,22 @@ float T = 0.1;
 
 BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> prev_xhat){
     BLA::Matrix<1,1> u = u_val;
-    //BLA::Matrix<1,2> u_spec = {u_val, 0};
     BLA::Matrix<1,1> y = y_val;
     BLA::Matrix<2,1> entry1 = Bd * u;
-    BLA::Matrix<2,1> entry2 = (L * u) * (y - ((u * Cd) * prev_xhat));
+    BLA::Matrix<2,1> entry2 = (L) * (y - (C * prev_xhat));
     BLA::Matrix<2,1> entry3 = (u_val * Ad) * prev_xhat; 
     BLA::Matrix<2,1> xhat = entry1 + entry2 + entry3;
     return xhat;
 }
 
 float controller(float step_val, float Kr_val, BLA::Matrix<1,2> K_fb_val, float y_val){
-    BLA::Matrix<2,1> xhat = prev_xhat;
-    float u = (step_val * Kr_val) + (K_fb_val * prev_xhat)(0,0);
+    
+    float u = (step_val * Kr_val) + (-K_fb_val * xhat)(0,0);
+    xhat = approxStateVector(u, y_val, prev_xhat);
+    //BLA::Matrix<2,1> xhat = prev_xhat;
     // Cap u
     if (u > 5) u = 5;
     if (u < 0) u = 0;
-    xhat = approxStateVector(u, y_val, prev_xhat);
     prev_xhat = xhat;
     return u;
 }
@@ -86,10 +90,6 @@ void loop() {
 
     // print the results to the serial monitor:
     Serial.print(time++);
-    Serial.print (" ");
-    Serial.print (prev_xhat);
-    Serial.print (" ");
-    //Serial.print (xhat);
     Serial.print (" ");
     Serial.print (y);
     Serial.print (" ");
