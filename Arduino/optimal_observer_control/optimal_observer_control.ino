@@ -11,55 +11,41 @@ boolean switchVal = HIGH; // declare initial switch pin state
 // Parameter Settings
 int time = 0; // initialize time
 int uVal = 0; // initialize control input
-const float Kp = 2.3492;
-const float Ki = 0.8551;
 const float ref = 2.5; //2.5V reference input
-const float Kr = 0.974;
+const float kr = 0.9740;
 
 // feedback gain and observable gain vectors
-BLA::Matrix<1,2> K = {4.6334, -0.026};
-BLA::Matrix<2,1> L = {1.7829, 1.0896};//{-0.4331, -0.9516};
+const float k1 = -4.6334;
+const float k2 = -0.0260;
 
-// Observable matrix values
-BLA::Matrix<2,2> Ad = {0.7746, -0.08833, 0.08833, 0.9954};
-BLA::Matrix<2,1> Bd = {0.08833, 0.004604};
-BLA::Matrix<1,2> Cd = {0, 1};
-BLA::Matrix<1,1> Dd = {0};
-BLA::Matrix<2,1> prev_xhat = 0;
-BLA::Matrix<2,1> xhat = 0;
+const float l1 = 1.7829;
+const float l2 = 1.0896;
 
+const float ad1 = 0.7746;
+const float ad2 = -0.08833;
+const float ad3 = 0.08833;
+const float ad4 = 0.9954;
 
-BLA::Matrix<1,2> C = {0, 1};
+const float bd1 = 0.08833;
+const float bd2 = 0.004604;
+
+const float cd1 = 0;
+const float cd2 = 1;
+
+const float dd1 = 0;
+
+float xhat1 = 0;
+float xhat2 = 0;
+
+float xhat1_prev = 0;
+float xhat2_prev = 0;
 
 // Initial Values for internal signals
 float y=0;
-//float u=0;
-//float u_prev=0;
-//float e=0;
-//float e_prev=0;
-float T = 0.1;
+const float T = 0.1;
 
-BLA::Matrix<2,1> approxStateVector(float u_val, float y_val, BLA::Matrix<2,1> prev_xhat){
-    BLA::Matrix<1,1> u = u_val;
-    BLA::Matrix<1,1> y = y_val;
-    BLA::Matrix<2,1> entry1 = Bd * u;
-    BLA::Matrix<2,1> entry2 = (L) * (y - (C * prev_xhat));
-    BLA::Matrix<2,1> entry3 = (u_val * Ad) * prev_xhat; 
-    BLA::Matrix<2,1> xhat = entry1 + entry2 + entry3;
-    return xhat;
-}
+float u = 0;
 
-float controller(float step_val, float Kr_val, BLA::Matrix<1,2> K_fb_val, float y_val){
-    
-    float u = (step_val * Kr_val) + (-K_fb_val * xhat)(0,0);
-    xhat = approxStateVector(u, y_val, prev_xhat);
-    //BLA::Matrix<2,1> xhat = prev_xhat;
-    // Cap u
-    if (u > 5) u = 5;
-    if (u < 0) u = 0;
-    prev_xhat = xhat;
-    return u;
-}
 
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
@@ -81,8 +67,18 @@ void loop() {
     // convert to volts
     y=sensorVal*(5.0/1023.0);
 
-    // observer design within controller design
-    float u = controller(ref, Kr, K, y);
+    u = kr*ref -k1*xhat1 - k2*xhat2;
+
+    xhat1 = ad1*xhat1_prev + ad3*xhat2_prev + l1*(y-xhat2_prev) + bd1*u;
+    xhat2 = ad2*xhat1_prev + ad4*xhat2_prev + l2*(y-xhat2_prev) + bd2*u;
+
+    xhat1_prev = xhat1;
+    xhat2_prev = xhat2; 
+
+
+
+    if (u > 5) u = 5;
+    if (u < 0) u = 0;
 
     // WRITE CIRCUIT INPUT
     uVal=u*(255/5);
