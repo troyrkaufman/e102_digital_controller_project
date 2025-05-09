@@ -43,7 +43,7 @@ float xhat2_prev = 0;
 // Initial Values for internal signals
 float y=0;
 const float T = 0.1;
-
+float U = 0;
 float u = 0;
 
 void setup() {
@@ -79,6 +79,8 @@ void loop() {
     if (u > 5) u = 5;
     if (u < 0) u = 0;
 
+    U += abs(u-2.5)
+
     // WRITE CIRCUIT INPUT
     uVal=u*(255/5);
     analogWrite(uPin,uVal);
@@ -89,6 +91,8 @@ void loop() {
     Serial.print (y);
     Serial.print (" ");
     Serial.println(u);
+    Serial.print (" ");
+    Serial.print (U);
  
 
     // WAIT FOR NEXT SAMPLE
