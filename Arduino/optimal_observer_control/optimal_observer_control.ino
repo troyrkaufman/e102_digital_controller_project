@@ -43,7 +43,7 @@ float xhat2_prev = 0;
 // Initial Values for internal signals
 float y=0;
 const float T = 0.1;
-
+float U = 0;
 float u = 0;
 
 void setup() {
