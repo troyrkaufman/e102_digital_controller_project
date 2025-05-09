@@ -1,6 +1,6 @@
 import numpy as np
 
-file_name = 'pi_control.txt'
+file_name = 'optimal_observer_control.txt'
 
 data = np.loadtxt(file_name, skiprows=1, delimiter=' ')
 
