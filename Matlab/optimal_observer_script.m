@@ -54,3 +54,40 @@ logs = simOut.yout;
 % step = logs.get('step');
 % step_time = step.Values.Time;
 % step_data = step.Values.Data;
+
+arduino_data = readtable('optimal_observer_control.csv');
+time_ard = arduino_data.Time*0.1;
+y_ard = arduino_data.Output;
+u_ard = arduino_data.Input;
+
+sim_y = logs.get('y')
+sim_u = logs.get('u')
+y_time = sim_y.Values.Time;
+y_data = sim_y.Values.Data;
+
+u_time = sim_u.Values.Time;
+u_data = sim_u.Values.Data;
+
+figure(1)
+% Plot results
+subplot(2,1,1) 
+hold on
+plot(y_time, y_data)
+plot(time_ard, y_ard)
+legend('Simulated', 'Experimental')
+title('Output With Optimal Control and Observer')
+xlabel('Time [s]')
+ylabel('Voltage [V]')
+xlim([0 5])
+
+hold off
+subplot(2,1,2)
+hold on
+plot(u_time, u_data)
+plot(time_ard, u_ard)
+legend('Simulated', 'Experimental')
+title('Control Input To The Plant')
+xlabel('Time [s]')
+ylabel('Voltage [V]')
+xlim([0 5])
+hold off 
