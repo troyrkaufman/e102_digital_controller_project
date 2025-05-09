@@ -12,25 +12,25 @@ boolean switchVal = HIGH; // declare initial switch pin state
 int time = 0; // initialize time
 int uVal = 0; // initialize control input
 const float ref = 2.5; //2.5V reference input
-const float kr = 0.9740;
+const float kr = 8.8806;
 
 // feedback gain and observable gain vectors
-const float k1 = -4.6334;
-const float k2 = -0.0260;
+const float k1 = 6.7193;
+const float k2 = 1.1614;
 
-const float l1 = 1.7829;
-const float l2 = 1.0896;
+const float l1 = 0.9841;
+const float l2 = 3.9383;
 
-const float ad1 = 0.7746;
-const float ad2 = -0.08833;
-const float ad3 = 0.08833;
-const float ad4 = 0.9954;
+const float ad1 = 0.9523;
+const float ad2 = 0.04313;
+const float ad3 = 0.04313;
+const float ad4 = 0.7798;
 
-const float bd1 = 0.08833;
-const float bd2 = 0.004604;
+const float bd1 = 0.004532;
+const float bd2 = 0.177;
 
-const float cd1 = 0;
-const float cd2 = 1;
+const float cd1 = 1;
+const float cd2 = 0;
 
 const float dd1 = 0;
 
@@ -45,7 +45,6 @@ float y=0;
 const float T = 0.1;
 
 float u = 0;
-
 
 void setup() {
     pinMode(switchPin, INPUT); //set switch pin to input mode
