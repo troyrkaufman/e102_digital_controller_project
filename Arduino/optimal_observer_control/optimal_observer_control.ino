@@ -68,8 +68,8 @@ void loop() {
 
     u = kr*ref -k1*xhat1 - k2*xhat2;
 
-    xhat1 = ad1*xhat1_prev + ad3*xhat2_prev + l1*(y-xhat2_prev) + bd1*u;
-    xhat2 = ad2*xhat1_prev + ad4*xhat2_prev + l2*(y-xhat2_prev) + bd2*u;
+    xhat1 = ad1*xhat1_prev + ad3*xhat2_prev + l1*(y-xhat1_prev) + bd1*u;
+    xhat2 = ad2*xhat1_prev + ad4*xhat2_prev + l2*(y-xhat1_prev) + bd2*u;
 
     xhat1_prev = xhat1;
     xhat2_prev = xhat2; 
