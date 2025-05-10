@@ -13,14 +13,14 @@ boolean switchVal = HIGH; // declare initial switch pin state
 int time = 0; // initialize time
 int uVal = 0; // initialize control input
 const float ref = 2.5; //2.5V reference input
-const float kr = 8.8806;
+const float kr = 8.0380;
 
 // feedback gain and observable gain vectors
-const float k1 = 6.7193;
-const float k2 = 1.1614;
+const float k1 = 6.2;    
+const float k2 = 1;
 
-const float l1 = 0.9841;
-const float l2 = 3.9383;
+const float l1 = 0.8750;    
+const float l2 = 3.5371;    
 
 const float ad1 = 0.9523;
 const float ad2 = 0.04313;
@@ -78,7 +78,7 @@ void loop() {
     if (u > 5) u = 5;
     if (u < 0) u = 0;
 
-    U = U + fabsf(u-2.5);
+    U = U + fabs(u-ref);
 
     // WRITE CIRCUIT INPUT
     uVal=u*(255/5);
@@ -89,9 +89,7 @@ void loop() {
     Serial.print (" ");
     Serial.print (y);
     Serial.print (" ");
-    Serial.println(u);
-    Serial.print (" ");
-    Serial.print (U);
+    Serial.println(U);
  
 
     // WAIT FOR NEXT SAMPLE

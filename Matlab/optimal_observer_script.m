@@ -25,7 +25,7 @@ Ts = 0.1
 sys_d = c2d(sys_c, Ts)
 
 % solve for K and poles
-Q = [100 0; 0 1];
+Q = [80 0; 0 1];
 R = [1];
 [K, S, P] = dlqr(sys_d.A ,sys_d.B, Q, R)
 
