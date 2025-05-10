@@ -56,7 +56,7 @@ time_ard = arduino_data.Time*0.1;
 y_ard = arduino_data.Output;
 u_ard = arduino_data.Input;
 
-figure(1)
+figure(2)
 % Plot results
 subplot(2,1,1) 
 hold on
@@ -66,6 +66,7 @@ legend('Simulated', 'Experimental')
 title('Output With PI Compensator')
 xlabel('Time [s]')
 ylabel('Voltage [V]')
+xlim([0 15]);
 
 hold off
 subplot(2,1,2)
@@ -76,4 +77,5 @@ legend('Simulated', 'Experimental')
 title('Control Input To The Plant')
 xlabel('Time [s]')
 ylabel('Voltage [V]')
+xlim([0 15]);
 hold off 

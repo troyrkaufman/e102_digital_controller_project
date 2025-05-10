@@ -1,5 +1,6 @@
 #include <BasicLinearAlgebra.h>
 #include <ElementStorage.h>
+#include <math.h>
 // optimal_observer_control.ino
 
 //PIN SETTINGS
@@ -74,12 +75,10 @@ void loop() {
     xhat1_prev = xhat1;
     xhat2_prev = xhat2; 
 
-
-
     if (u > 5) u = 5;
     if (u < 0) u = 0;
 
-    U += abs(u-2.5)
+    U = U + fabsf(u-2.5);
 
     // WRITE CIRCUIT INPUT
     uVal=u*(255/5);
