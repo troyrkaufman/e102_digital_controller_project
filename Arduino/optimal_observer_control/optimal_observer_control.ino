@@ -9,7 +9,7 @@ const int uPin = 9; // Analog write pin (PWM)
 const int switchPin = 2; // input pin for the switch
 boolean switchVal = HIGH; // declare initial switch pin state
 
-const float params[] = {6.3544, 3.0734, 2.2810, 1.0750, 4.4013}; // kr, k1, k2, l1, l2
+const float params[] = {58.2863, 52.3576, 4.9287, 1.4210, 9.2455}; // kr, k1, k2, l1, l2
 
 
 
