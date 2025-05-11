@@ -25,7 +25,7 @@ Ts = 0.1
 sys_d = c2d(sys_c, Ts)
 
 % solve for K and poles
-Q = [80 0; 0 1];
+Q = [60 0; 0 20];
 R = [1];
 [K, S, P] = dlqr(sys_d.A ,sys_d.B, Q, R)
 
@@ -91,3 +91,6 @@ xlabel('Time [s]')
 ylabel('Voltage [V]')
 xlim([0 5])
 hold off 
+
+fprintf('{%.4f, %.4f, %.4f, %.4f, %.4f}\n', Kr, K(1), K(2), L(1), L(2));
+

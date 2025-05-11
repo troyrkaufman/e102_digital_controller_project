@@ -9,18 +9,22 @@ const int uPin = 9; // Analog write pin (PWM)
 const int switchPin = 2; // input pin for the switch
 boolean switchVal = HIGH; // declare initial switch pin state
 
+const float params[] = {6.3544, 3.0734, 2.2810, 1.0750, 4.4013}; // kr, k1, k2, l1, l2
+
+
+
 // Parameter Settings
 int time = 0; // initialize time
 int uVal = 0; // initialize control input
 const float ref = 2.5; //2.5V reference input
-const float kr = 8.0380;
+const float kr = params[0];
 
 // feedback gain and observable gain vectors
-const float k1 = 6.2;    
-const float k2 = 1;
+const float k1 = params[1];    
+const float k2 = params[2];
 
-const float l1 = 0.8750;    
-const float l2 = 3.5371;    
+const float l1 = params[3];    
+const float l2 = params[4];    
 
 const float ad1 = 0.9523;
 const float ad2 = 0.04313;
